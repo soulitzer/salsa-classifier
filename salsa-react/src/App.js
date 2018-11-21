@@ -42,10 +42,12 @@ class App extends Component {
           Our <i>recurrent neural net</i> models are trained from thousands of Caribbean songs.
         </p>
         <hr />
+        <h3>1. Upload audio</h3>
         <div className="upload-container">
           <div className="upload"><FilePond onprocessfile={onprocessfile} server={server_settings}/></div>
         </div>
-
+        <hr />
+        <h3>2. Review results</h3>
         <div className="results-container">
           <ClassificationResults processed={this.state.processed} results={this.state.results}/>
         </div>
