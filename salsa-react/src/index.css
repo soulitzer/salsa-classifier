@@ -1,0 +1,64 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.main-container {
+  margin-top:140px;
+  width:60%;
+  margin-left:20%;
+  margin-right:20%;
+}
+
+.main-container p {
+  margin-bottom:30px;
+}
+
+.main-container hr {
+  border: 1px solid #EEE;
+  border-style:dashed;
+}
+
+.intro-bold-link {
+  font-weight:bold
+}
+
+.upload-container{
+  width:100%;
+  margin-top:50px;
+  margin-bottom:50px;
+}
+
+.upload {
+  margin-left:auto;
+  margin-right:auto;
+  width:300px;
+  height:40px;
+}
+
+.results-container {
+  color:#AAA;
+  background-color:#fffde7;
+  margin-top:100px;
+  padding:30px;
+}
+
+.classification-results {
+  color:black;
+}
+
+.result-title {
+  font-size:30px;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.red {color:#f44336}
+.green {color:#8BC34A}
+.blue {color:#03A9F4}
