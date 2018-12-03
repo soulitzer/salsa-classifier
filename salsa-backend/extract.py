@@ -1,4 +1,5 @@
 # %matplotlib inline
+import pickle
 import os
 import seaborn, sys
 import numpy, scipy, matplotlib.pyplot as plt, IPython.display as ipd
@@ -24,9 +25,20 @@ for filename in files:
 	print("Loading " + f + "...")
 	x, sr = librosa.load(f)
 
-	# Get tempo
-	# tempo, beat_times = librosa.beat.beat_track(x, sr=sr, start_bpm=120, units='time')
-	# print("tempo: {0:.2f}".format(tempo))
+	# 	Primary feature extraction: get Mel-frequency cepstral coefficients from the original signal
+	# Replace "x" with "P" or "H" to narrow the coefficients down to focus on percussion or harmony.
+	n_mfcc = 12 # 12 is only the example number of features, this can be tinkered with
+	mfcc = librosa.feature.mfcc(x,sr,n_mfcc=n_mfcc)
+
+	output_name = [filename, filename[6::]][a][:-4]
+	print("Storing features in: ", + output_name)
+	output = open(output_name, 'wb')
+	pickle.dump(x,output)
+	pickle.dump(sr,output)
+	# pickle.dump(P,output)
+	# pickle.dump(H,output)
+	pickle.dump(mfcc,output)
+	output.close()
 
 	# # Uncomment to separate harmonic and percussive sources
 	# # Get short time fourier transform of signal
@@ -39,10 +51,6 @@ for filename in files:
 	# P = librosa.istft(D_percussive)
 	# H = librosa.istft(D_harmonic)
 
-	# # 	Primary feature extraction: get Mel-frequency cepstral coefficients from the original signal
-	# # Replace "x" with "P" or "H" to narrow the coefficients down to focus on percussion or harmony.
-	# n_mfcc = 12 # 12 is only the example number of features, this can be tinkered with
-	# mfcc = librosa.feature.mfcc(x,sr,n_mfcc=n_mfcc)
 
 
 ####################
@@ -51,6 +59,9 @@ for filename in files:
 ####################
 
 
+# Get tempo
+# tempo, beat_times = librosa.beat.beat_track(x, sr=sr, start_bpm=120, units='time')
+# print("tempo: {0:.2f}".format(tempo))
 
 # plt.figure(figsize=(14, 5))
 # librosa.display.waveplot(x, alpha=0.6)
