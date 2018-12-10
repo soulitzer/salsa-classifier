@@ -1,3 +1,4 @@
+import os
 import numpy as np
 import librosa as lbr
 from tensorflow.keras.models import Model
@@ -42,7 +43,22 @@ def load_track(filename, shape_x=3534):
     return np.log(features)
 
 def predict(filename):
-    try:
-        x_test     = load_track(filename)
-        predictions = model.predict([x_test])
-        return predictions[0]
+    x_test     = load_track(filename)
+    predictions = model.predict(x_test.reshape(1, 3534, 128))
+    return predictions[0]
+
+if __name__ == '__main__':
+    GENRES = ['reggae', 'salsa ', 'soca  ']
+
+    for testdir in ["other"]:
+        testdir = "..\\..\\genre-recognition\\data\\genres\\"+testdir
+        results = [0, 0, 0]
+        for file in os.listdir(testdir):
+            filepath = os.path.join(testdir, file)
+            if not filepath.endswith(".mp3"): continue
+            result = predict(filepath)
+            predicted_genre = np.argmax(result) # Get max probability
+            print(filepath, "Predicted : ", GENRES[predicted_genre], " ".join(["%.2f%%"%(i*100.0) for i in result]))
+            results[predicted_genre] += 1
+        
+        print(testdir, ["%s: %03d" %(GENRES[i], results[i]) for i in range(3)])
