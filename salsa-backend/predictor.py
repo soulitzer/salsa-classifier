@@ -1,10 +1,14 @@
 import os
 import numpy as np
 import librosa as lbr
-from tensorflow.keras.models import Model
-from tensorflow.keras.optimizers import Adam
-from tensorflow.keras.layers import Input, Dense, Dropout, Activation, \
+from tensorflow.python.keras.models import Model
+from tensorflow.python.keras.optimizers import Adam
+from tensorflow.python.keras.layers import Input, Dense, Dropout, Activation, \
         TimeDistributed, Convolution1D, MaxPooling1D, BatchNormalization, GlobalAveragePooling1D
+
+import tensorflow as tf
+global graph,model
+graph = tf.get_default_graph()
 
 GENRES = ['reggae', 'salsa', 'soca']
 GENRE_DESCRIPTS = ["", "", "Salsa music is a popular dance music genre that initially arose in New York City during the 1960s. Salsa is the product of various musical genres including the Cuban son montuno, guaracha, cha cha chá, mambo, and to a certain extent bolero, and the Puerto Rican bomba and plena. Latin jazz, which was also developed in New York City, has had a significant influence on salsa arrangers, piano guajeos, and instrumental soloists."]
@@ -44,14 +48,16 @@ def load_track(filename, shape_x=3534):
 
 def predict(filename):
     x_test     = load_track(filename)
-    predictions = model.predict(x_test.reshape(1, 3534, 128))
+    print(x_test, x_test.shape)
+    with graph.as_default():
+     
+        predictions = model.predict(x_test.reshape(1, 3534, 128))
     return predictions[0]
 
 if __name__ == '__main__':
     GENRES = ['reggae', 'salsa ', 'soca  ']
 
-    for testdir in ["other"]:
-        testdir = "..\\..\\genre-recognition\\data\\genres\\"+testdir
+    for testdir in ["./data"]:
         results = [0, 0, 0]
         for file in os.listdir(testdir):
             filepath = os.path.join(testdir, file)

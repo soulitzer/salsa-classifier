@@ -8,6 +8,7 @@ from werkzeug import secure_filename
 from flask_cors import CORS, cross_origin
 from predictor import predict, GENRES, GENRE_DESCRIPTS
 import flask_cors
+import numpy as np
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'hard to guess string'
@@ -50,14 +51,15 @@ def process():
 
         # TODO: perform musical analysis
         result = predict(uploaded_file_path)
-        predicted_genre = result.index(max(result)) # Get max probability
+        print(result)
+        predicted_genre = np.argmax(result) # Get max probability
 
         # example output:
         example = {
             "predicted_class": GENRES[predicted_genre],
-            "probability": result[predicted_genre],
-            "description": GENRE_DESCRIPTS[predicted_genre],
-            "all_probs" : tuple(result)
+            "probability": "{:.2f}".format(result[predicted_genre]),
+            "description": GENRE_DESCRIPTS[predicted_genre]
+            # "all_probs" : tuple(result)
         }
         result = example
 
