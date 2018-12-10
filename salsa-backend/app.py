@@ -6,6 +6,7 @@ import traceback
 from flask import Flask, request
 from werkzeug import secure_filename
 from flask_cors import CORS, cross_origin
+from predictor import predict, GENRES, GENRE_DESCRIPTS
 import flask_cors
 
 app = Flask(__name__)
@@ -48,13 +49,15 @@ def process():
         files.save(uploaded_file_path)
 
         # TODO: perform musical analysis
-        result = None
+        result = predict(uploaded_file_path)
+        predicted_genre = result.index(max(result)) # Get max probability
 
         # example output:
         example = {
-            "predicted_class": "Salsa",
-            "probability": 56,
-            "description": "Salsa music is a popular dance music genre that initially arose in New York City during the 1960s. Salsa is the product of various musical genres including the Cuban son montuno, guaracha, cha cha chá, mambo, and to a certain extent bolero, and the Puerto Rican bomba and plena. Latin jazz, which was also developed in New York City, has had a significant influence on salsa arrangers, piano guajeos, and instrumental soloists."
+            "predicted_class": GENRES[predicted_genre],
+            "probability": result[predicted_genre],
+            "description": GENRE_DESCRIPTS[predicted_genre],
+            "all_probs" : tuple(result)
         }
         result = example
 
