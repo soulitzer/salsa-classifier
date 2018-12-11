@@ -10,6 +10,26 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
+.pie-chart {
+  height:250px;
+  width:250px;
+}
+
+.pie-container {
+  margin-top:100px;
+  display:flex;
+}
+
+.pie-left {
+  flex-grow:1;
+}
+
+.pie-right {
+  flex-grow:2;
+  position:relative;
+  top:-50px;
+}
+
 .main-container {
   margin-top: 80px;
   width: 60%;
@@ -72,7 +92,7 @@ code {
 }
 
 .result-title {
-  font-size: 20px;
+  font-size: 26px;
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 

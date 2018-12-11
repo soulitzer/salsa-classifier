@@ -35,8 +35,11 @@ def gen_file_name(filename):
         i += 1
     return filename
 
-@app.route("/process", methods=['POST'])
+@app.route("/api/process", methods=['POST', 'GET'])
 def process():
+
+    log('hello')
+
     files = request.files['filepond']
     if files:
         filename = secure_filename(files.filename)
@@ -57,9 +60,9 @@ def process():
         # example output:
         example = {
             "predicted_class": GENRES[predicted_genre],
-            "probability": "{:.2f}".format(result[predicted_genre]),
-            "description": GENRE_DESCRIPTS[predicted_genre]
-            # "all_probs" : tuple(result)
+            "probability": "{:.2f}".format(result[predicted_genre]*100),
+            "description": GENRE_DESCRIPTS[predicted_genre],
+            "allprobs" : ["%.2f"%(i*100.0) for i in result]
         }
         result = example
 
